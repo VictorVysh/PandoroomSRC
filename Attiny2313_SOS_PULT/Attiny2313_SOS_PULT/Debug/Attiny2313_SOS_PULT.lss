@@ -1,0 +1,347 @@
+
+Attiny2313_SOS_PULT.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000019c  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000024  00800060  0000019c  00000230  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800084  00800084  00000254  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000254  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000050  00000000  00000000  00000284  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000001ef  00000000  00000000  000002d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000011b  00000000  00000000  000004c3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000013f  00000000  00000000  000005de  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000084  00000000  00000000  00000720  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000001dc  00000000  00000000  000007a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000062  00000000  00000000  00000980  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000040  00000000  00000000  000009e2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	2c c0       	rjmp	.+88     	; 0x5c <__bad_interrupt>
+   4:	2b c0       	rjmp	.+86     	; 0x5c <__bad_interrupt>
+   6:	2a c0       	rjmp	.+84     	; 0x5c <__bad_interrupt>
+   8:	29 c0       	rjmp	.+82     	; 0x5c <__bad_interrupt>
+   a:	28 c0       	rjmp	.+80     	; 0x5c <__bad_interrupt>
+   c:	27 c0       	rjmp	.+78     	; 0x5c <__bad_interrupt>
+   e:	26 c0       	rjmp	.+76     	; 0x5c <__bad_interrupt>
+  10:	25 c0       	rjmp	.+74     	; 0x5c <__bad_interrupt>
+  12:	24 c0       	rjmp	.+72     	; 0x5c <__bad_interrupt>
+  14:	23 c0       	rjmp	.+70     	; 0x5c <__bad_interrupt>
+  16:	22 c0       	rjmp	.+68     	; 0x5c <__bad_interrupt>
+  18:	21 c0       	rjmp	.+66     	; 0x5c <__bad_interrupt>
+  1a:	20 c0       	rjmp	.+64     	; 0x5c <__bad_interrupt>
+  1c:	1f c0       	rjmp	.+62     	; 0x5c <__bad_interrupt>
+  1e:	1e c0       	rjmp	.+60     	; 0x5c <__bad_interrupt>
+  20:	1d c0       	rjmp	.+58     	; 0x5c <__bad_interrupt>
+  22:	1c c0       	rjmp	.+56     	; 0x5c <__bad_interrupt>
+  24:	1b c0       	rjmp	.+54     	; 0x5c <__bad_interrupt>
+  26:	1a c0       	rjmp	.+52     	; 0x5c <__bad_interrupt>
+  28:	19 c0       	rjmp	.+50     	; 0x5c <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf ed       	ldi	r28, 0xDF	; 223
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	ec e9       	ldi	r30, 0x9C	; 156
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+  42:	a4 38       	cpi	r26, 0x84	; 132
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <__SP_L__+0x1>
+
+00000048 <__do_clear_bss>:
+  48:	20 e0       	ldi	r18, 0x00	; 0
+  4a:	a4 e8       	ldi	r26, 0x84	; 132
+  4c:	b0 e0       	ldi	r27, 0x00	; 0
+  4e:	01 c0       	rjmp	.+2      	; 0x52 <.do_clear_bss_start>
+
+00000050 <.do_clear_bss_loop>:
+  50:	1d 92       	st	X+, r1
+
+00000052 <.do_clear_bss_start>:
+  52:	a6 38       	cpi	r26, 0x86	; 134
+  54:	b2 07       	cpc	r27, r18
+  56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
+  58:	9a d0       	rcall	.+308    	; 0x18e <main>
+  5a:	9e c0       	rjmp	.+316    	; 0x198 <_exit>
+
+0000005c <__bad_interrupt>:
+  5c:	d1 cf       	rjmp	.-94     	; 0x0 <__vectors>
+
+0000005e <InitButtons>:
+	}
+}
+
+void InitButtons()
+{
+	SOS_BUTTONS_DDR = SET_BTNS_ON;
+  5e:	8f e0       	ldi	r24, 0x0F	; 15
+  60:	87 bb       	out	0x17, r24	; 23
+	SOS_BUTTONS_PORT = SET_BTNS_ON;
+  62:	88 bb       	out	0x18, r24	; 24
+  64:	08 95       	ret
+
+00000066 <InitLEDS>:
+}
+
+void InitLEDS()
+{
+	LEDS_DDR &= SET_LED_OUTPUT;
+  66:	81 b3       	in	r24, 0x11	; 17
+  68:	81 bb       	out	0x11, r24	; 17
+	SET_LED_STATE_0;
+  6a:	92 98       	cbi	0x12, 2	; 18
+  6c:	93 98       	cbi	0x12, 3	; 18
+  6e:	94 98       	cbi	0x12, 4	; 18
+  70:	08 95       	ret
+
+00000072 <GetButton>:
+
+int GetButton()
+{
+	while(1)
+	{
+		for(int i=0;i!=MAXBTNS;i++)
+  72:	80 e0       	ldi	r24, 0x00	; 0
+  74:	90 e0       	ldi	r25, 0x00	; 0
+  76:	60 e0       	ldi	r22, 0x00	; 0
+  78:	50 e0       	ldi	r21, 0x00	; 0
+		{
+			if(!(SOS_BUTTONS_PIN & (1<<BTNS_ARRAY[i])) )//Получим состояние кнопки
+  7a:	26 b3       	in	r18, 0x16	; 22
+  7c:	fc 01       	movw	r30, r24
+  7e:	ee 0f       	add	r30, r30
+  80:	ff 1f       	adc	r31, r31
+  82:	e4 58       	subi	r30, 0x84	; 132
+  84:	ff 4f       	sbci	r31, 0xFF	; 255
+  86:	40 81       	ld	r20, Z
+  88:	30 e0       	ldi	r19, 0x00	; 0
+  8a:	04 2e       	mov	r0, r20
+  8c:	02 c0       	rjmp	.+4      	; 0x92 <GetButton+0x20>
+  8e:	35 95       	asr	r19
+  90:	27 95       	ror	r18
+  92:	0a 94       	dec	r0
+  94:	e2 f7       	brpl	.-8      	; 0x8e <GetButton+0x1c>
+  96:	20 fd       	sbrc	r18, 0
+  98:	10 c0       	rjmp	.+32     	; 0xba <GetButton+0x48>
+  9a:	21 e0       	ldi	r18, 0x01	; 1
+  9c:	30 e0       	ldi	r19, 0x00	; 0
+  9e:	b9 01       	movw	r22, r18
+  a0:	02 c0       	rjmp	.+4      	; 0xa6 <GetButton+0x34>
+  a2:	66 0f       	add	r22, r22
+  a4:	77 1f       	adc	r23, r23
+  a6:	4a 95       	dec	r20
+  a8:	e2 f7       	brpl	.-8      	; 0xa2 <GetButton+0x30>
+  aa:	ab 01       	movw	r20, r22
+			{
+				while(!(SOS_BUTTONS_PIN & (1<<BTNS_ARRAY[i])) );
+  ac:	26 b3       	in	r18, 0x16	; 22
+  ae:	30 e0       	ldi	r19, 0x00	; 0
+  b0:	24 23       	and	r18, r20
+  b2:	35 23       	and	r19, r21
+  b4:	23 2b       	or	r18, r19
+  b6:	d1 f3       	breq	.-12     	; 0xac <GetButton+0x3a>
+  b8:	08 95       	ret
+
+int GetButton()
+{
+	while(1)
+	{
+		for(int i=0;i!=MAXBTNS;i++)
+  ba:	01 96       	adiw	r24, 0x01	; 1
+  bc:	84 30       	cpi	r24, 0x04	; 4
+  be:	91 05       	cpc	r25, r1
+  c0:	e1 f6       	brne	.-72     	; 0x7a <GetButton+0x8>
+  c2:	86 2f       	mov	r24, r22
+  c4:	95 2f       	mov	r25, r21
+  c6:	d9 cf       	rjmp	.-78     	; 0x7a <GetButton+0x8>
+
+000000c8 <SHandleLED>:
+	SHandleLED();
+}
+
+void SHandleLED()
+{
+	if(CURRENT_POS_IN_PASSWORD==5)
+  c8:	80 91 84 00 	lds	r24, 0x0084
+  cc:	90 91 85 00 	lds	r25, 0x0085
+  d0:	85 30       	cpi	r24, 0x05	; 5
+  d2:	91 05       	cpc	r25, r1
+  d4:	11 f4       	brne	.+4      	; 0xda <SHandleLED+0x12>
+	{
+		SET_LED_STATE_1;
+  d6:	92 9a       	sbi	0x12, 2	; 18
+  d8:	08 95       	ret
+	}
+	else if(CURRENT_POS_IN_PASSWORD==9)
+  da:	89 30       	cpi	r24, 0x09	; 9
+  dc:	91 05       	cpc	r25, r1
+  de:	21 f4       	brne	.+8      	; 0xe8 <__stack+0x9>
+	{
+		SET_LED_STATE_2;
+  e0:	82 b3       	in	r24, 0x12	; 18
+  e2:	8c 60       	ori	r24, 0x0C	; 12
+  e4:	82 bb       	out	0x12, r24	; 18
+  e6:	08 95       	ret
+	}
+	else if(CURRENT_POS_IN_PASSWORD==14)
+  e8:	8e 30       	cpi	r24, 0x0E	; 14
+  ea:	91 05       	cpc	r25, r1
+  ec:	21 f4       	brne	.+8      	; 0xf6 <__stack+0x17>
+	{
+		SET_LED_STATE_3;
+  ee:	82 b3       	in	r24, 0x12	; 18
+  f0:	8c 61       	ori	r24, 0x1C	; 28
+  f2:	82 bb       	out	0x12, r24	; 18
+  f4:	08 95       	ret
+	}
+	else if(CURRENT_POS_IN_PASSWORD<4)
+  f6:	04 97       	sbiw	r24, 0x04	; 4
+  f8:	1c f4       	brge	.+6      	; 0x100 <__stack+0x21>
+	{
+		SET_LED_STATE_0;
+  fa:	92 98       	cbi	0x12, 2	; 18
+  fc:	93 98       	cbi	0x12, 3	; 18
+  fe:	94 98       	cbi	0x12, 4	; 18
+ 100:	08 95       	ret
+
+00000102 <HandleLED>:
+}
+
+
+void HandleLED()
+{
+	if(CURRENT_POS_IN_PASSWORD>0&&CURRENT_POS_IN_PASSWORD<5)
+ 102:	80 91 84 00 	lds	r24, 0x0084
+ 106:	90 91 85 00 	lds	r25, 0x0085
+ 10a:	9c 01       	movw	r18, r24
+ 10c:	21 50       	subi	r18, 0x01	; 1
+ 10e:	31 09       	sbc	r19, r1
+ 110:	24 30       	cpi	r18, 0x04	; 4
+ 112:	31 05       	cpc	r19, r1
+ 114:	28 f4       	brcc	.+10     	; 0x120 <HandleLED+0x1e>
+	{
+		CURRENT_POS_IN_PASSWORD=0;
+ 116:	10 92 85 00 	sts	0x0085, r1
+ 11a:	10 92 84 00 	sts	0x0084, r1
+ 11e:	16 c0       	rjmp	.+44     	; 0x14c <HandleLED+0x4a>
+	}
+	else if(CURRENT_POS_IN_PASSWORD>5&&CURRENT_POS_IN_PASSWORD<9)
+ 120:	9c 01       	movw	r18, r24
+ 122:	26 50       	subi	r18, 0x06	; 6
+ 124:	31 09       	sbc	r19, r1
+ 126:	23 30       	cpi	r18, 0x03	; 3
+ 128:	31 05       	cpc	r19, r1
+ 12a:	38 f4       	brcc	.+14     	; 0x13a <HandleLED+0x38>
+	{
+		CURRENT_POS_IN_PASSWORD=5;
+ 12c:	85 e0       	ldi	r24, 0x05	; 5
+ 12e:	90 e0       	ldi	r25, 0x00	; 0
+ 130:	90 93 85 00 	sts	0x0085, r25
+ 134:	80 93 84 00 	sts	0x0084, r24
+ 138:	09 c0       	rjmp	.+18     	; 0x14c <HandleLED+0x4a>
+	}
+	else if(CURRENT_POS_IN_PASSWORD>9&&CURRENT_POS_IN_PASSWORD<14)
+ 13a:	0a 97       	sbiw	r24, 0x0a	; 10
+ 13c:	04 97       	sbiw	r24, 0x04	; 4
+ 13e:	30 f4       	brcc	.+12     	; 0x14c <HandleLED+0x4a>
+	{
+		CURRENT_POS_IN_PASSWORD=9;
+ 140:	89 e0       	ldi	r24, 0x09	; 9
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	90 93 85 00 	sts	0x0085, r25
+ 148:	80 93 84 00 	sts	0x0084, r24
+	}
+	SHandleLED();
+ 14c:	bd df       	rcall	.-134    	; 0xc8 <SHandleLED>
+ 14e:	08 95       	ret
+
+00000150 <HandlePressed>:
+	}
+}
+
+void HandlePressed(int BTN)
+{
+	if(Password0[CURRENT_POS_IN_PASSWORD]==BTNS_ARRAY[BTN])
+ 150:	20 91 84 00 	lds	r18, 0x0084
+ 154:	30 91 85 00 	lds	r19, 0x0085
+ 158:	f9 01       	movw	r30, r18
+ 15a:	ee 0f       	add	r30, r30
+ 15c:	ff 1f       	adc	r31, r31
+ 15e:	e0 5a       	subi	r30, 0xA0	; 160
+ 160:	ff 4f       	sbci	r31, 0xFF	; 255
+ 162:	88 0f       	add	r24, r24
+ 164:	99 1f       	adc	r25, r25
+ 166:	dc 01       	movw	r26, r24
+ 168:	a4 58       	subi	r26, 0x84	; 132
+ 16a:	bf 4f       	sbci	r27, 0xFF	; 255
+ 16c:	40 81       	ld	r20, Z
+ 16e:	51 81       	ldd	r21, Z+1	; 0x01
+ 170:	8d 91       	ld	r24, X+
+ 172:	9c 91       	ld	r25, X
+ 174:	48 17       	cp	r20, r24
+ 176:	59 07       	cpc	r21, r25
+ 178:	41 f4       	brne	.+16     	; 0x18a <HandlePressed+0x3a>
+	{
+		CURRENT_POS_IN_PASSWORD++;
+ 17a:	2f 5f       	subi	r18, 0xFF	; 255
+ 17c:	3f 4f       	sbci	r19, 0xFF	; 255
+ 17e:	30 93 85 00 	sts	0x0085, r19
+ 182:	20 93 84 00 	sts	0x0084, r18
+		SHandleLED();
+ 186:	a0 df       	rcall	.-192    	; 0xc8 <SHandleLED>
+ 188:	08 95       	ret
+	}
+	else
+	{
+		HandleLED();
+ 18a:	bb df       	rcall	.-138    	; 0x102 <HandleLED>
+ 18c:	08 95       	ret
+
+0000018e <main>:
+void HandleLED();
+void SHandleLED();
+
+int main(void)
+{
+	InitButtons();
+ 18e:	67 df       	rcall	.-306    	; 0x5e <InitButtons>
+	InitLEDS();
+ 190:	6a df       	rcall	.-300    	; 0x66 <InitLEDS>
+	int TMP_PRESSED=0;
+    while(1)
+    {
+		TMP_PRESSED=GetButton();
+ 192:	6f df       	rcall	.-290    	; 0x72 <GetButton>
+		HandlePressed(TMP_PRESSED);			
+ 194:	dd df       	rcall	.-70     	; 0x150 <HandlePressed>
+ 196:	fd cf       	rjmp	.-6      	; 0x192 <main+0x4>
+
+00000198 <_exit>:
+ 198:	f8 94       	cli
+
+0000019a <__stop_program>:
+ 19a:	ff cf       	rjmp	.-2      	; 0x19a <__stop_program>
