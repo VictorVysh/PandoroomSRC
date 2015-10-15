@@ -9,7 +9,7 @@
 	74HC595 - сдвиговый регистр
 	Atmega8 - камень
 */
-
+//8Mhz
 #define F_CPU 8000000
 
 #include "KEYPAD.h"
