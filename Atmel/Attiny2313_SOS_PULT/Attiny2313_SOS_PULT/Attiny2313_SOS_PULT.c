@@ -145,6 +145,11 @@ void HandleLED()
 	{
 		CURRENT_POS_IN_PASSWORD=9;
 	}
+	else if(CURRENT_POS_IN_PASSWORD==13)
+	{
+		LED_OUT_ON;
+		while(1);
+	}
 	SHandleLED();
 }
 
