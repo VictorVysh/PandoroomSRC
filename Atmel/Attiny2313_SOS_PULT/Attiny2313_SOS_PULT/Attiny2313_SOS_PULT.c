@@ -116,13 +116,7 @@ void HandlePressed(int BTN)
 	{
 		HandleLED();
 	}
-	for(int i=0;i!=CURRENT_POS_IN_PASSWORD;i++)
-	{
-		LED_OUT_ON;
-		_delay_ms(200);
-		LED_OUT_OFF;
-		_delay_ms(200);
-	}
+	//for(int i=0;i!=CURRENT_POS_IN_PASSWORD;i++){LED_OUT_ON;_delay_ms(200);LED_OUT_OFF;_delay_ms(200);}
 }
 
 
@@ -145,11 +139,6 @@ void HandleLED()
 	{
 		CURRENT_POS_IN_PASSWORD=9;
 	}
-	else if(CURRENT_POS_IN_PASSWORD==13)
-	{
-		LED_OUT_ON;
-		while(1);
-	}
 	SHandleLED();
 }
 
@@ -163,9 +152,11 @@ void SHandleLED()
 	{
 		SET_LED_STATE_2;
 	}
-	else if(CURRENT_POS_IN_PASSWORD==13)
+	else if(CURRENT_POS_IN_PASSWORD==14)
 	{
 		SET_LED_STATE_3;
+		LED_OUT_ON;
+		while(1);
 	}
 	else if(CURRENT_POS_IN_PASSWORD<4)
 	{

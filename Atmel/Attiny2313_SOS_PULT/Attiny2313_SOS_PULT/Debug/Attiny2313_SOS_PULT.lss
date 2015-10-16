@@ -3,29 +3,29 @@ Attiny2313_SOS_PULT.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000001f4  00000000  00000000  00000094  2**1
+  0 .text         0000019e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000024  00800060  000001f4  00000288  2**0
+  1 .data         00000024  00800060  0000019e  00000232  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000002  00800084  00800084  000002ac  2**0
+  2 .bss          00000002  00800084  00800084  00000256  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000002ac  2**0
+  3 .comment      00000030  00000000  00000000  00000256  2**0
                   CONTENTS, READONLY
-  4 .debug_aranges 00000050  00000000  00000000  000002dc  2**0
+  4 .debug_aranges 00000050  00000000  00000000  00000286  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000002c3  00000000  00000000  0000032c  2**0
+  5 .debug_info   000001ef  00000000  00000000  000002d6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000194  00000000  00000000  000005ef  2**0
+  6 .debug_abbrev 0000011b  00000000  00000000  000004c5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000001e2  00000000  00000000  00000783  2**0
+  7 .debug_line   00000141  00000000  00000000  000005e0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000084  00000000  00000000  00000968  2**2
+  8 .debug_frame  00000084  00000000  00000000  00000724  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000001f7  00000000  00000000  000009ec  2**0
+  9 .debug_str    000001ac  00000000  00000000  000007a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000116  00000000  00000000  00000be3  2**0
+ 10 .debug_loc    00000062  00000000  00000000  00000954  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000040  00000000  00000000  00000cf9  2**0
+ 11 .debug_ranges 00000040  00000000  00000000  000009b6  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,7 +63,7 @@ Disassembly of section .text:
   32:	10 e0       	ldi	r17, 0x00	; 0
   34:	a0 e6       	ldi	r26, 0x60	; 96
   36:	b0 e0       	ldi	r27, 0x00	; 0
-  38:	e4 ef       	ldi	r30, 0xF4	; 244
+  38:	ee e9       	ldi	r30, 0x9E	; 158
   3a:	f1 e0       	ldi	r31, 0x01	; 1
   3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
   3e:	05 90       	lpm	r0, Z+
@@ -85,8 +85,8 @@ Disassembly of section .text:
   52:	a6 38       	cpi	r26, 0x86	; 134
   54:	b2 07       	cpc	r27, r18
   56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
-  58:	c6 d0       	rcall	.+396    	; 0x1e6 <main>
-  5a:	ca c0       	rjmp	.+404    	; 0x1f0 <_exit>
+  58:	9b d0       	rcall	.+310    	; 0x190 <main>
+  5a:	9f c0       	rjmp	.+318    	; 0x19a <_exit>
 
 0000005c <__bad_interrupt>:
   5c:	d1 cf       	rjmp	.-94     	; 0x0 <__vectors>
@@ -207,206 +207,146 @@ void SHandleLED()
   e4:	82 bb       	out	0x12, r24	; 18
   e6:	08 95       	ret
 	}
-	else if(CURRENT_POS_IN_PASSWORD==13)
-  e8:	8d 30       	cpi	r24, 0x0D	; 13
+	else if(CURRENT_POS_IN_PASSWORD==14)
+  e8:	8e 30       	cpi	r24, 0x0E	; 14
   ea:	91 05       	cpc	r25, r1
-  ec:	21 f4       	brne	.+8      	; 0xf6 <__stack+0x17>
+  ec:	29 f4       	brne	.+10     	; 0xf8 <__stack+0x19>
 	{
 		SET_LED_STATE_3;
   ee:	82 b3       	in	r24, 0x12	; 18
   f0:	8c 61       	ori	r24, 0x1C	; 28
   f2:	82 bb       	out	0x12, r24	; 18
-  f4:	08 95       	ret
+		LED_OUT_ON;
+  f4:	95 9a       	sbi	0x12, 5	; 18
+  f6:	ff cf       	rjmp	.-2      	; 0xf6 <__stack+0x17>
+		while(1);
 	}
 	else if(CURRENT_POS_IN_PASSWORD<4)
-  f6:	04 97       	sbiw	r24, 0x04	; 4
-  f8:	1c f4       	brge	.+6      	; 0x100 <__stack+0x21>
+  f8:	04 97       	sbiw	r24, 0x04	; 4
+  fa:	1c f4       	brge	.+6      	; 0x102 <__stack+0x23>
 	{
 		SET_LED_STATE_0;
-  fa:	92 98       	cbi	0x12, 2	; 18
-  fc:	93 98       	cbi	0x12, 3	; 18
-  fe:	94 98       	cbi	0x12, 4	; 18
- 100:	08 95       	ret
+  fc:	92 98       	cbi	0x12, 2	; 18
+  fe:	93 98       	cbi	0x12, 3	; 18
+ 100:	94 98       	cbi	0x12, 4	; 18
+ 102:	08 95       	ret
 
-00000102 <HandleLED>:
+00000104 <HandleLED>:
 void HandleLED()
 {
 	//{LEFT,DOWN,RIGHT,DOWN,LEFT,DOWN,LEFT,UP,RIGHT,LEFT,DOWN,RIGHT,DOWN,LEFT};
 		
 	//{LEFT,DOWN,RIGHT,DOWN,LEFT};
 	if(CURRENT_POS_IN_PASSWORD>0&&CURRENT_POS_IN_PASSWORD<=4)
- 102:	80 91 84 00 	lds	r24, 0x0084
- 106:	90 91 85 00 	lds	r25, 0x0085
- 10a:	9c 01       	movw	r18, r24
- 10c:	21 50       	subi	r18, 0x01	; 1
- 10e:	31 09       	sbc	r19, r1
- 110:	24 30       	cpi	r18, 0x04	; 4
- 112:	31 05       	cpc	r19, r1
- 114:	28 f4       	brcc	.+10     	; 0x120 <HandleLED+0x1e>
+ 104:	80 91 84 00 	lds	r24, 0x0084
+ 108:	90 91 85 00 	lds	r25, 0x0085
+ 10c:	9c 01       	movw	r18, r24
+ 10e:	21 50       	subi	r18, 0x01	; 1
+ 110:	31 09       	sbc	r19, r1
+ 112:	24 30       	cpi	r18, 0x04	; 4
+ 114:	31 05       	cpc	r19, r1
+ 116:	28 f4       	brcc	.+10     	; 0x122 <HandleLED+0x1e>
 	{
 		CURRENT_POS_IN_PASSWORD=0;
- 116:	10 92 85 00 	sts	0x0085, r1
- 11a:	10 92 84 00 	sts	0x0084, r1
- 11e:	1e c0       	rjmp	.+60     	; 0x15c <HandleLED+0x5a>
+ 118:	10 92 85 00 	sts	0x0085, r1
+ 11c:	10 92 84 00 	sts	0x0084, r1
+ 120:	16 c0       	rjmp	.+44     	; 0x14e <HandleLED+0x4a>
 	}
 	//{DOWN,LEFT,UP,RIGHT};
 	else if(CURRENT_POS_IN_PASSWORD>4&&CURRENT_POS_IN_PASSWORD<=8)
- 120:	9c 01       	movw	r18, r24
- 122:	25 50       	subi	r18, 0x05	; 5
- 124:	31 09       	sbc	r19, r1
- 126:	24 30       	cpi	r18, 0x04	; 4
- 128:	31 05       	cpc	r19, r1
- 12a:	38 f4       	brcc	.+14     	; 0x13a <HandleLED+0x38>
+ 122:	9c 01       	movw	r18, r24
+ 124:	25 50       	subi	r18, 0x05	; 5
+ 126:	31 09       	sbc	r19, r1
+ 128:	24 30       	cpi	r18, 0x04	; 4
+ 12a:	31 05       	cpc	r19, r1
+ 12c:	38 f4       	brcc	.+14     	; 0x13c <HandleLED+0x38>
 	{
 		CURRENT_POS_IN_PASSWORD=5;
- 12c:	85 e0       	ldi	r24, 0x05	; 5
- 12e:	90 e0       	ldi	r25, 0x00	; 0
- 130:	90 93 85 00 	sts	0x0085, r25
- 134:	80 93 84 00 	sts	0x0084, r24
- 138:	11 c0       	rjmp	.+34     	; 0x15c <HandleLED+0x5a>
+ 12e:	85 e0       	ldi	r24, 0x05	; 5
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	90 93 85 00 	sts	0x0085, r25
+ 136:	80 93 84 00 	sts	0x0084, r24
+ 13a:	09 c0       	rjmp	.+18     	; 0x14e <HandleLED+0x4a>
 	}
 	//{LEFT,DOWN,RIGHT,DOWN,LEFT};
 	else if(CURRENT_POS_IN_PASSWORD>8&&CURRENT_POS_IN_PASSWORD<=13)
- 13a:	9c 01       	movw	r18, r24
- 13c:	29 50       	subi	r18, 0x09	; 9
- 13e:	31 09       	sbc	r19, r1
- 140:	25 30       	cpi	r18, 0x05	; 5
- 142:	31 05       	cpc	r19, r1
- 144:	38 f4       	brcc	.+14     	; 0x154 <HandleLED+0x52>
+ 13c:	09 97       	sbiw	r24, 0x09	; 9
+ 13e:	05 97       	sbiw	r24, 0x05	; 5
+ 140:	30 f4       	brcc	.+12     	; 0x14e <HandleLED+0x4a>
 	{
 		CURRENT_POS_IN_PASSWORD=9;
- 146:	89 e0       	ldi	r24, 0x09	; 9
- 148:	90 e0       	ldi	r25, 0x00	; 0
- 14a:	90 93 85 00 	sts	0x0085, r25
- 14e:	80 93 84 00 	sts	0x0084, r24
- 152:	04 c0       	rjmp	.+8      	; 0x15c <HandleLED+0x5a>
-	}
-	else if(CURRENT_POS_IN_PASSWORD==13)
- 154:	0d 97       	sbiw	r24, 0x0d	; 13
- 156:	11 f4       	brne	.+4      	; 0x15c <HandleLED+0x5a>
-	{
-		LED_OUT_ON;
- 158:	95 9a       	sbi	0x12, 5	; 18
- 15a:	ff cf       	rjmp	.-2      	; 0x15a <HandleLED+0x58>
-		while(1);
+ 142:	89 e0       	ldi	r24, 0x09	; 9
+ 144:	90 e0       	ldi	r25, 0x00	; 0
+ 146:	90 93 85 00 	sts	0x0085, r25
+ 14a:	80 93 84 00 	sts	0x0084, r24
 	}
 	SHandleLED();
- 15c:	b5 df       	rcall	.-150    	; 0xc8 <SHandleLED>
- 15e:	08 95       	ret
+ 14e:	bc df       	rcall	.-136    	; 0xc8 <SHandleLED>
+ 150:	08 95       	ret
 
-00000160 <HandlePressed>:
+00000152 <HandlePressed>:
 	}
 }
 
 void HandlePressed(int BTN)
 {
 	if(Password0[CURRENT_POS_IN_PASSWORD]==BTNS_ARRAY[BTN])
- 160:	20 91 84 00 	lds	r18, 0x0084
- 164:	30 91 85 00 	lds	r19, 0x0085
- 168:	f9 01       	movw	r30, r18
- 16a:	ee 0f       	add	r30, r30
- 16c:	ff 1f       	adc	r31, r31
- 16e:	e0 5a       	subi	r30, 0xA0	; 160
- 170:	ff 4f       	sbci	r31, 0xFF	; 255
- 172:	88 0f       	add	r24, r24
- 174:	99 1f       	adc	r25, r25
- 176:	dc 01       	movw	r26, r24
- 178:	a4 58       	subi	r26, 0x84	; 132
- 17a:	bf 4f       	sbci	r27, 0xFF	; 255
- 17c:	40 81       	ld	r20, Z
- 17e:	51 81       	ldd	r21, Z+1	; 0x01
- 180:	8d 91       	ld	r24, X+
- 182:	9c 91       	ld	r25, X
- 184:	48 17       	cp	r20, r24
- 186:	59 07       	cpc	r21, r25
- 188:	41 f4       	brne	.+16     	; 0x19a <HandlePressed+0x3a>
+ 152:	20 91 84 00 	lds	r18, 0x0084
+ 156:	30 91 85 00 	lds	r19, 0x0085
+ 15a:	f9 01       	movw	r30, r18
+ 15c:	ee 0f       	add	r30, r30
+ 15e:	ff 1f       	adc	r31, r31
+ 160:	e0 5a       	subi	r30, 0xA0	; 160
+ 162:	ff 4f       	sbci	r31, 0xFF	; 255
+ 164:	88 0f       	add	r24, r24
+ 166:	99 1f       	adc	r25, r25
+ 168:	dc 01       	movw	r26, r24
+ 16a:	a4 58       	subi	r26, 0x84	; 132
+ 16c:	bf 4f       	sbci	r27, 0xFF	; 255
+ 16e:	40 81       	ld	r20, Z
+ 170:	51 81       	ldd	r21, Z+1	; 0x01
+ 172:	8d 91       	ld	r24, X+
+ 174:	9c 91       	ld	r25, X
+ 176:	48 17       	cp	r20, r24
+ 178:	59 07       	cpc	r21, r25
+ 17a:	41 f4       	brne	.+16     	; 0x18c <HandlePressed+0x3a>
 	{
 		CURRENT_POS_IN_PASSWORD++;
- 18a:	2f 5f       	subi	r18, 0xFF	; 255
- 18c:	3f 4f       	sbci	r19, 0xFF	; 255
- 18e:	30 93 85 00 	sts	0x0085, r19
- 192:	20 93 84 00 	sts	0x0084, r18
+ 17c:	2f 5f       	subi	r18, 0xFF	; 255
+ 17e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 180:	30 93 85 00 	sts	0x0085, r19
+ 184:	20 93 84 00 	sts	0x0084, r18
 		SHandleLED();
- 196:	98 df       	rcall	.-208    	; 0xc8 <SHandleLED>
- 198:	01 c0       	rjmp	.+2      	; 0x19c <HandlePressed+0x3c>
+ 188:	9f df       	rcall	.-194    	; 0xc8 <SHandleLED>
+ 18a:	08 95       	ret
 	}
 	else
 	{
 		HandleLED();
- 19a:	b3 df       	rcall	.-154    	; 0x102 <HandleLED>
-	}
-	for(int i=0;i!=CURRENT_POS_IN_PASSWORD;i++)
- 19c:	80 91 84 00 	lds	r24, 0x0084
- 1a0:	90 91 85 00 	lds	r25, 0x0085
- 1a4:	89 2b       	or	r24, r25
- 1a6:	f1 f0       	breq	.+60     	; 0x1e4 <HandlePressed+0x84>
- 1a8:	80 e0       	ldi	r24, 0x00	; 0
- 1aa:	90 e0       	ldi	r25, 0x00	; 0
-	{
-		LED_OUT_ON;
- 1ac:	95 9a       	sbi	0x12, 5	; 18
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+ 18c:	bb df       	rcall	.-138    	; 0x104 <HandleLED>
+ 18e:	08 95       	ret
 
-	__builtin_avr_delay_cycles(__ticks_dc);
- 1ae:	2f ef       	ldi	r18, 0xFF	; 255
- 1b0:	30 e7       	ldi	r19, 0x70	; 112
- 1b2:	42 e0       	ldi	r20, 0x02	; 2
- 1b4:	21 50       	subi	r18, 0x01	; 1
- 1b6:	30 40       	sbci	r19, 0x00	; 0
- 1b8:	40 40       	sbci	r20, 0x00	; 0
- 1ba:	e1 f7       	brne	.-8      	; 0x1b4 <HandlePressed+0x54>
- 1bc:	00 c0       	rjmp	.+0      	; 0x1be <HandlePressed+0x5e>
- 1be:	00 00       	nop
-		_delay_ms(200);
-		LED_OUT_OFF;
- 1c0:	95 98       	cbi	0x12, 5	; 18
- 1c2:	2f ef       	ldi	r18, 0xFF	; 255
- 1c4:	30 e7       	ldi	r19, 0x70	; 112
- 1c6:	42 e0       	ldi	r20, 0x02	; 2
- 1c8:	21 50       	subi	r18, 0x01	; 1
- 1ca:	30 40       	sbci	r19, 0x00	; 0
- 1cc:	40 40       	sbci	r20, 0x00	; 0
- 1ce:	e1 f7       	brne	.-8      	; 0x1c8 <HandlePressed+0x68>
- 1d0:	00 c0       	rjmp	.+0      	; 0x1d2 <HandlePressed+0x72>
- 1d2:	00 00       	nop
-	}
-	else
-	{
-		HandleLED();
-	}
-	for(int i=0;i!=CURRENT_POS_IN_PASSWORD;i++)
- 1d4:	01 96       	adiw	r24, 0x01	; 1
- 1d6:	20 91 84 00 	lds	r18, 0x0084
- 1da:	30 91 85 00 	lds	r19, 0x0085
- 1de:	28 17       	cp	r18, r24
- 1e0:	39 07       	cpc	r19, r25
- 1e2:	21 f7       	brne	.-56     	; 0x1ac <HandlePressed+0x4c>
- 1e4:	08 95       	ret
-
-000001e6 <main>:
+00000190 <main>:
 void HandleLED();
 void SHandleLED();
 
 int main(void)
 {
 	InitButtons();
- 1e6:	3b df       	rcall	.-394    	; 0x5e <InitButtons>
+ 190:	66 df       	rcall	.-308    	; 0x5e <InitButtons>
 	InitLEDS();
- 1e8:	3e df       	rcall	.-388    	; 0x66 <InitLEDS>
+ 192:	69 df       	rcall	.-302    	; 0x66 <InitLEDS>
 	int TMP_PRESSED=0;
     while(1)
     {
 		TMP_PRESSED=GetButton();
- 1ea:	43 df       	rcall	.-378    	; 0x72 <GetButton>
+ 194:	6e df       	rcall	.-292    	; 0x72 <GetButton>
 		HandlePressed(TMP_PRESSED);			
- 1ec:	b9 df       	rcall	.-142    	; 0x160 <HandlePressed>
- 1ee:	fd cf       	rjmp	.-6      	; 0x1ea <main+0x4>
+ 196:	dd df       	rcall	.-70     	; 0x152 <HandlePressed>
+ 198:	fd cf       	rjmp	.-6      	; 0x194 <main+0x4>
 
-000001f0 <_exit>:
- 1f0:	f8 94       	cli
+0000019a <_exit>:
+ 19a:	f8 94       	cli
 
-000001f2 <__stop_program>:
- 1f2:	ff cf       	rjmp	.-2      	; 0x1f2 <__stop_program>
+0000019c <__stop_program>:
+ 19c:	ff cf       	rjmp	.-2      	; 0x19c <__stop_program>
