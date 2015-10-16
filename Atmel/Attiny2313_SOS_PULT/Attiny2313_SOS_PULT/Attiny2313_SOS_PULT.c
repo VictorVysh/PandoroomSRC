@@ -9,6 +9,16 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+/*============SIGNAL============*/
+#define SIGNAL_LED_DDR DDRD
+#define SIGNAL_LED_PORT PORTD
+#define SIGNAL_LED_PIN PIND
+
+#define LED_OUT PD5
+#define LED_OUT_ON LEDS_PORT |= _BV(LED_OUT);
+#define LED_OUT_OFF LEDS_PORT &= ~_BV(LED_OUT);
+/*============SIGNAL============*/
+
 /*==========Порт вывода==========*/
 #define LEDS_DDR DDRD
 #define LEDS_PORT PORTD
@@ -18,7 +28,7 @@
 #define LED_O1 PD3
 #define LED_S2 PD4
 
-#define SET_LED_OUTPUT ~_BV(LED_S1)|~_BV(LED_O1)|~_BV(LED_S2);
+#define SET_LED_OUTPUT ~_BV(LED_S1)|~_BV(LED_O1)|~_BV(LED_S2)|~_BV(LED_OUT);
 #define SET_LED_STATE_0 LEDS_PORT &= ~_BV(LED_S1);LEDS_PORT &= ~_BV(LED_O1);LEDS_PORT &= ~_BV(LED_S2);
 #define SET_LED_STATE_1 LEDS_PORT |= _BV(LED_S1);
 #define SET_LED_STATE_2 LEDS_PORT |= _BV(LED_S1)|_BV(LED_O1);
@@ -108,9 +118,9 @@ void HandlePressed(int BTN)
 	}
 	for(int i=0;i!=CURRENT_POS_IN_PASSWORD;i++)
 	{
-		SET_LED_STATE_1;
+		LED_OUT_ON;
 		_delay_ms(200);
-		SET_LED_STATE_0;
+		LED_OUT_OFF;
 		_delay_ms(200);
 	}
 }
