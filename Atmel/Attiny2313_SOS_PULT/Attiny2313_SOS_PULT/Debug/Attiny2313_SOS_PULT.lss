@@ -182,7 +182,7 @@ int GetButton()
 000000c8 <SHandleLED>:
 	SHandleLED();
 }
-
+	
 void SHandleLED()
 {
 	if(CURRENT_POS_IN_PASSWORD==5)

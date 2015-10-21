@@ -58,8 +58,8 @@ int Password0[14] = {LEFT,DOWN,RIGHT,DOWN,LEFT,DOWN,LEFT,UP,RIGHT,LEFT,DOWN,RIGH
 int CURRENT_POS_IN_PASSWORD = 0;
 /*==========Кнопки==========*/
 
-void InitButtons();
-void InitLEDS();
+void InitButtons();//
+void InitLEDS();//
 
 int GetButton();
 void HandlePressed(int BTN);
@@ -141,7 +141,7 @@ void HandleLED()
 	}
 	SHandleLED();
 }
-
+	
 void SHandleLED()
 {
 	if(CURRENT_POS_IN_PASSWORD==5)
